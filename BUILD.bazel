@@ -1,0 +1,117 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+load("@rules_devicetree//devicetree:dtb.bzl", "dtb")
+load("@rules_devicetree//devicetree:dtb_composite.bzl", "dtb_composite")
+load("@rules_devicetree//devicetree:dtbo.bzl", "dtbo")
+load("@rules_devicetree//devicetree:devicetree_library.bzl", "devicetree_library")
+load("//build/kernel/kleaf:kernel.bzl", "dtbo_image")
+
+package(default_visibility = ["//vendor/nvidia:__subpackages__"])
+
+devicetree_library(
+    name = "all_t19x_dtsi",
+    hdrs = glob([
+        "*.dtsi",
+    ]),
+    includes = ["."],
+)
+
+dtb(
+    name = "tegra194-p2888-0001-p2822-0000.dtb",
+    srcs = ["//vendor/nvidia/kernel:arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts"],
+    generate_symbols = True,
+    deps = ["//vendor/nvidia/kernel:all_nvidia_dts"],
+)
+
+dtb(
+    name = "tegra194-p3668-0000-p3509-0000-android.dtb",
+    srcs = ["//vendor/nvidia/kernel:arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0000.dts"],
+    generate_symbols = True,
+    deps = ["//vendor/nvidia/kernel:all_nvidia_dts"],
+)
+
+dtb(
+    name = "tegra194-p3668-0001-p3509-0000-android.dtb",
+    srcs = ["//vendor/nvidia/kernel:arch/arm64/boot/dts/nvidia/tegra194-p3509-0000+p3668-0001.dts"],
+    generate_symbols = True,
+    deps = ["//vendor/nvidia/kernel:all_nvidia_dts"],
+)
+
+filegroup(
+    name = "dtbs",
+    srcs = [
+        "tegra194-p2888-0001-p2822-0000.dtb",
+        "tegra194-p3668-0000-p3509-0000-android.dtb",
+        "tegra194-p3668-0001-p3509-0000-android.dtb",
+    ],
+)
+
+dtbo(
+    name = "tegra194-p2888-0001-p2822-0000-overlay.dtbo",
+    srcs = ["tegra194-p2888-0001-p2822-0000-overlay.dtso"],
+    deps = [
+        ":all_t19x_dtsi",
+        "//vendor/ayn/kernel:dtc_includes_aarch64",
+    ],
+)
+
+dtbo(
+    name = "tegra194-p3668-0000-p3509-0000-android-overlay.dtbo",
+    srcs = ["tegra194-p3668-0000-p3509-0000-android-overlay.dtso"],
+    deps = [
+        ":all_t19x_dtsi",
+        "//vendor/ayn/kernel:dtc_includes_aarch64",
+    ],
+)
+
+dtbo(
+    name = "tegra194-p3668-0001-p3509-0000-android-overlay.dtbo",
+    srcs = ["tegra194-p3668-0001-p3509-0000-android-overlay.dtso"],
+    deps = [
+        ":all_t19x_dtsi",
+        "//vendor/ayn/kernel:dtc_includes_aarch64",
+    ],
+)
+
+filegroup(
+    name = "dtbos",
+    srcs = [
+        "tegra194-p2888-0001-p2822-0000-overlay.dtbo",
+        "tegra194-p3668-0000-p3509-0000-android-overlay.dtbo",
+        "tegra194-p3668-0001-p3509-0000-android-overlay.dtbo",
+    ],
+)
+
+dtbo_image(
+    name = "dtbo_image",
+    srcs = [":dtbos"],
+    out = "dtbo_t19x.img",
+    config_file = "dtboimg.cfg",
+)
+
+dtb_composite(
+    name = "tegra194-p2888-0001-p2822-0000-composite.dtb",
+    base = "tegra194-p2888-0001-p2822-0000.dtb",
+    overlays = ["tegra194-p2888-0001-p2822-0000-overlay.dtbo"],
+)
+
+dtb_composite(
+    name = "tegra194-p3668-0000-p3509-0000-android-composite.dtb",
+    base = "tegra194-p3668-0000-p3509-0000-android.dtb",
+    overlays = ["tegra194-p3668-0000-p3509-0000-android-overlay.dtbo"],
+)
+
+dtb_composite(
+    name = "tegra194-p3668-0001-p3509-0000-android-composite.dtb",
+    base = "tegra194-p3668-0001-p3509-0000-android.dtb",
+    overlays = ["tegra194-p3668-0001-p3509-0000-android-overlay.dtbo"],
+)
+
+filegroup(
+    name = "dtbo_verifications",
+    srcs = [
+        "tegra194-p2888-0001-p2822-0000-composite.dtb",
+        "tegra194-p3668-0000-p3509-0000-android-composite.dtb",
+        "tegra194-p3668-0001-p3509-0000-android-composite.dtb",
+    ],
+)

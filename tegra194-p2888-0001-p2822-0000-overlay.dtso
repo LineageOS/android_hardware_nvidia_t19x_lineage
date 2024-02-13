@@ -1,0 +1,9 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+        overlay-name = "Jetson AGX Xavier Android Overlay";
+        board_id = <2888>;
+        board_sku = <1>;
+        board_fab = <0x400>;
+};

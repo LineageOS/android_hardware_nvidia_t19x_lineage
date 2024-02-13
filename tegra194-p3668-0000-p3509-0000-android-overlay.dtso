@@ -1,0 +1,9 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+        overlay-name = "Jetson Xavier NX Developer SD-Card Kit Android Overlay";
+        board_id = <3668>;
+        board_sku = <0>;
+        board_fab = <0x301>;
+};
