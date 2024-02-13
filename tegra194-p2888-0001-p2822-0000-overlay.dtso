@@ -1,0 +1,11 @@
+/dts-v1/;
+/plugin/;
+
+#include "tegra194-lineage.dtsi"
+
+/ {
+        overlay-name = "Jetson AGX Xavier Android Overlay";
+        board_id = <2888>;
+        board_sku = <1>;
+        board_fab = <0x400>;
+};
