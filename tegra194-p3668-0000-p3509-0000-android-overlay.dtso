@@ -9,3 +9,17 @@
         board_sku = <0>;
         board_fab = <0x301>;
 };
+
+&{/} {
+	firmware {
+		android {
+			compatible = "android,firmware";
+			hardware = "rey";
+			boot_devices = "bus@0/3400000.mmc";
+			vbmeta {
+				compatible = "android,vbmeta";
+				parts = "vbmeta,vbmeta_system,boot,kernel-dtb,recovery";
+			};
+		};
+	};
+};
