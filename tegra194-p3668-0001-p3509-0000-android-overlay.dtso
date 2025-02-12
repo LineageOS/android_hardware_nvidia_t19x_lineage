@@ -22,4 +22,8 @@
 			};
 		};
 	};
+
+	gpio-keys {
+		status = "disabled";
+	};
 };
